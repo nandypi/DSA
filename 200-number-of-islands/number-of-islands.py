@@ -1,8 +1,9 @@
 class Solution:
     def numIslands(self, grid: List[List[str]]) -> int:
+        ROWS = len(grid); COLUMNS = len(grid[0]) 
 
         def markIt_dfs(mat, r, c):
-            if r < 0 or r == len(mat) or c < 0 or c == len(mat[0]) or mat[r][c] == "0":
+            if r < 0 or r >= ROWS or c < 0 or c >= COLUMNS or mat[r][c] == "0":
                 return 
             mat[r][c]= "0"
             markIt_dfs(mat, r, c+1) # right
