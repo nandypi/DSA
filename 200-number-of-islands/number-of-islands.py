@@ -9,13 +9,12 @@ class Solution:
             markIt_dfs(mat, r+1, c) # down
             markIt_dfs(mat, r-1, c) # up
             markIt_dfs(mat, r, c-1) # left
-            return 1
+            return 
         
-        R = len(grid)-1; C = len(grid[0])-1; count = 0
+        count = 0
         for r in range(len(grid)):
             for c in range(len(grid[0])):
-                visited = markIt_dfs(grid, r, c)
-                if visited == 1:
+                if grid[r][c] == "1":
                     count += 1
-
+                    markIt_dfs(grid, r, c)
         return count
