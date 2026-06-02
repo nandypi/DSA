@@ -1,27 +1,32 @@
 class Solution:
     def closedIsland(self, grid: List[List[int]]) -> int:
-        ROWS = len(grid); COLUMNS = len(grid[0])
+        ROWS, COLS = len(grid), len(grid[0])
 
-        def markIt_dfs(mat, r, c):
-            if (r == 0 or c == 0 or r == ROWS-1 or c == COLUMNS-1) and mat[r][c] == 0:
+        def dfs(r, c):
+            # Stepped outside -> island is open
+            if r < 0 or r >= ROWS or c < 0 or c >= COLS:
                 return False
 
-            if mat[r][c] == 1:
+            # Water (or already visited) does not create a leak
+            if grid[r][c] == 1:
                 return True
 
-            mat[r][c]= 1
+            # Mark visited
+            grid[r][c] = 1
 
-            R = markIt_dfs(mat, r, c+1)
-            D = markIt_dfs(mat, r+1, c)
-            U = markIt_dfs(mat, r-1, c)
-            L = markIt_dfs(mat, r, c-1)
+            right = dfs(r, c + 1)
+            down  = dfs(r + 1, c)
+            up    = dfs(r - 1, c)
+            left  = dfs(r, c - 1)
 
-            return False not in (R, D, U, L)
-        
+            return right and down and up and left
+
         count = 0
+
         for r in range(ROWS):
-            for c in range(COLUMNS):
+            for c in range(COLS):
                 if grid[r][c] == 0:
-                    if markIt_dfs(grid, r, c):
+                    if dfs(r, c):
                         count += 1
+
         return count
